@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Servicio;
 use Illuminate\Http\Request;
 
+
 class ServicioController extends Controller
 {
     /**
@@ -14,7 +15,10 @@ class ServicioController extends Controller
      */
     public function index()
     {
-        //
+        $servicio = Servicio::latest()->get();
+
+        return response()->json($servicio);
+
     }
 
     /**
@@ -35,7 +39,15 @@ class ServicioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre'=>'required|string|max:255',
+            'precio'=>'required|numeric',
+            'duracion'=>'required|string|max:255',
+            'descripcion'=>'nullable|string',
+        ]);
+
+        $servicio = Servicio::create($request->all());
+        return response()->json(['message'=>'Servicio creado exitosamente','data'=>$servicio],201); 
     }
 
     /**
@@ -67,9 +79,21 @@ class ServicioController extends Controller
      * @param  \App\Models\Servicio  $servicio
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Servicio $servicio)
+    public function update(Request $request, $id)
     {
-        //
+        $servicio = Servicio::findOrFail($id); // Buscar el servicio por su ID
+
+        $request-> validate([
+            'nombre'=>'required|string|max:255',
+            'precio'=>'required|numeric',
+            'duracion'=>'required|string|max:255',
+            'descripcion'=>'nullable|string',
+        ]);
+        
+        $servicio->update($request->all()); // Actualizar el servicio con los datos recibidos
+
+        return response()->json(['message'=>'Servicio actualizado exitosamente','data'=>$servicio]); // Devolver una respuesta JSON con el servicio actualizado   
+        
     }
 
     /**
