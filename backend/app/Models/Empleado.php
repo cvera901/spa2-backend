@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Empleado extends Model
 {
     use HasFactory;
+
+    protected $fillable = [ // Campos que se pueden asignar masivamente 
+        'nombre',
+        'telefono',
+        'especialidad',
+    ];
 }

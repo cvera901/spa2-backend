@@ -14,7 +14,8 @@ class EmpleadoController extends Controller
      */
     public function index()
     {
-        //
+        $empleado = Empleado::latest()->get();
+        return response()->json($empleado);
     }
 
     /**
@@ -35,7 +36,15 @@ class EmpleadoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre'=>'required|string|max:255',
+            'telefono'=>'required|string|max:255',
+            'especialidad'=>'required|string|max:255',
+        ]);
+
+        $empleado = Empleado::create($request->all());
+        return response()->json(['message'=>'Empleado creado exitosamente','data'=>$empleado],201); // devolver una respuesta JSON con el empleado creado y un código de estado 201 (creado)
+
     }
 
     /**
@@ -67,9 +76,18 @@ class EmpleadoController extends Controller
      * @param  \App\Models\Empleado  $empleado
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Empleado $empleado)
+    public function update(Request $request, $id)
     {
-        //
+        $empleado = Empleado::findOrFail($id); //buscar el empleado por id
+        $request->validate([
+            'nombre'=>'required|string|max:255',
+            'telefono'=>'required|string|max:255',
+            'especialidad'=>'required|string|max;255',
+        ]);
+
+        $servicio->update($request->all()); // Actualizar el servicio con los datos recibidos
+
+        return response()->json(['message'=>'Empleado actualizado exitosamente','data'=>$empleado]); // devolver una respuesta JSON con el empleado actualizado
     }
 
     /**

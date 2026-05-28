@@ -43,7 +43,7 @@ class ServicioController extends Controller
             'nombre'=>'required|string|max:255',
             'precio'=>'required|numeric',
             'duracion'=>'required|string|max:255',
-            'descripcion'=>'nullable|string',
+            'descripcion'=>'nullable|string|max:255',
         ]);
 
         $servicio = Servicio::create($request->all());
@@ -87,7 +87,7 @@ class ServicioController extends Controller
             'nombre'=>'required|string|max:255',
             'precio'=>'required|numeric',
             'duracion'=>'required|string|max:255',
-            'descripcion'=>'nullable|string',
+            'descripcion'=>'nullable|string|max:255',
         ]);
         
         $servicio->update($request->all()); // Actualizar el servicio con los datos recibidos
