@@ -14,4 +14,9 @@ class Empleado extends Model
         'telefono',
         'especialidad',
     ];
+
+    // Relación con reservas
+    public function reservas(){
+        return $this->hasMany(Reserva::class); // un empleado puede tener muchas reservas
+    }
 }

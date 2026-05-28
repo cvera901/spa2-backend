@@ -14,4 +14,9 @@ class Servicio extends Model
         'duracion',
         'descripcion',
     ];
+
+    // Relación con reservas
+    public function reservas(){
+        return $this->hasMany(Reserva::class); // un servicio puede tener muchas reservas  
+    }
 }

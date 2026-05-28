@@ -5,11 +5,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\ReservaController;
 
 
 
 /*
-|--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
 |
@@ -22,6 +22,7 @@ use App\Http\Controllers\EmpleadoController;
 Route::apiResource('clientes', ClienteController::class); // Ruta para el recurso de clientes
 Route::apiResource('servicios', ServicioController::class); // Ruta para el recurso de servicios
 Route::apiResource('empleados', EmpleadoController::class); // Ruta para el recurso de empleados
+Route::apiResource('reservas', ReservaController::class); // Ruta para el recurso de reservas
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

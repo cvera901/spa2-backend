@@ -16,4 +16,9 @@ class Cliente extends Model
         'email',
         'fecha_nacimiento',
     ];
+
+    // Relación con reservas
+    public function reservas(){
+        return $this->hasMany(Reserva::class); // un cliente puede tener muchas reservas
+    }
 }
