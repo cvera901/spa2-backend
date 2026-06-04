@@ -15,6 +15,7 @@ class CreateClientesTable extends Migration
     {
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
+            $table->string('cedula_ruc')->unique(); // Agregar el campo cedula_ruc como único para evitar duplicados
             $table->string('nombres');
             $table->string('apellidos');
             $table->string('telefono');

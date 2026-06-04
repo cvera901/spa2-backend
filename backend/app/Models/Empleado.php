@@ -10,6 +10,7 @@ class Empleado extends Model
     use HasFactory;
 
     protected $fillable = [ // Campos que se pueden asignar masivamente 
+        'cedula_ruc',
         'nombre',
         'telefono',
         'especialidad',

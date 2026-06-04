@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Empleado;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class EmpleadoController extends Controller
 {
@@ -14,7 +15,7 @@ class EmpleadoController extends Controller
      */
     public function index()
     {
-        $empleado = Empleado::latest()->get();
+        $empleado = Empleado::latest()->get(); // obtener todos los datos de la tabla empleados ordenados por fecha de creación de forma descendente
         return response()->json($empleado);
     }
 
@@ -37,6 +38,7 @@ class EmpleadoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'cedula_ruc'=>'required|string|max:255|unique:empleados,cedula_ruc', // Validar que la cédula sea única en la tabla empleados
             'nombre'=>'required|string|max:255',
             'telefono'=>'required|string|max:255',
             'especialidad'=>'required|string|max:255',
@@ -55,7 +57,8 @@ class EmpleadoController extends Controller
      */
     public function show(Empleado $empleado)
     {
-        //
+        return response()->json($empleado); // Devolver una respuesta JSON con los datos del empleado encontrado
+
     }
 
     /**
@@ -76,19 +79,20 @@ class EmpleadoController extends Controller
      * @param  \App\Models\Empleado  $empleado
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Empleado $empleado)
     {
-        $empleado = Empleado::findOrFail($id); //buscar el empleado por id
         $request->validate([
-            'nombre'=>'required|string|max:255',
-            'telefono'=>'required|string|max:255',
-            'especialidad'=>'required|string|max;255',
+            'cedula_ruc' => ['required', 'string', 'max:255', Rule::unique('empleados', 'cedula_ruc')->ignore($empleado->id)],  
+            // Validar que la cédula sea única en la tabla empleados, excluyendo el empleado actual
+            'nombre' => 'required|string|max:255',
+            'telefono' => 'required|string|max:255',
+            'especialidad' => 'required|string|max:255',
         ]);
 
-        $servicio->update($request->all()); // Actualizar el servicio con los datos recibidos
-
-        return response()->json(['message'=>'Empleado actualizado exitosamente','data'=>$empleado]); // devolver una respuesta JSON con el empleado actualizado
+        $empleado->update($request->all()); // Actualizar el empleado con los datos recibidos en la solicitud
+        return response()->json(['message'=>'Empleado actualizado exitosamente','data'=>$empleado],200); // Devolver una respuesta JSON con el empleado actualizado y un código de estado 200 (OK)  
     }
+        
 
     /**
      * Remove the specified resource from storage.
@@ -98,6 +102,10 @@ class EmpleadoController extends Controller
      */
     public function destroy(Empleado $empleado)
     {
-        //
+        if($empleado->reservas()->exists()) { // Verificar si el empleado tiene reservas asociadas antes de eliminarlo
+            return response()->json(['message'=>'No se puede eliminar el empleado porque tiene reservas asociadas'], 400); // Devolver una respuesta JSON con un mensaje de error y un código de estado 400 (Bad Request)
+        }
+        $empleado->delete();
+        return response()->json(['message'=>'Empleado eliminado exitosamente'], 200); // Devolver una respuesta JSON con un mensaje de éxito y un código de estado 200 (OK) 
     }
 }

@@ -104,6 +104,11 @@ class ServicioController extends Controller
      */
     public function destroy(Servicio $servicio)
     {
-        //
+        if($servicio->reservas()->exists()) { // Verificar si el servicio tiene reservas asociadas antes de eliminarlo
+            return response()->json(['message'=>'No se puede eliminar el servicio porque tiene reservas asociadas'], 400); // Devolver una respuesta JSON con un mensaje de error y un código de estado 400 (Bad Request)
+        }
+
+        $servicio->delete(); // Eliminar el servicio
+        return response()->json(['message'=>'Servicio eliminado exitosamente'], 200); // Devolver
     }
 }

@@ -15,6 +15,7 @@ class CreateEmpleadosTable extends Migration
     {
         Schema::create('empleados', function (Blueprint $table) {
             $table->id();
+            $table->string('cedula_ruc',100)->unique();
             $table->string('nombre', 100);
             $table->string('telefono', 20);
             $table->string('especialidad', 100);

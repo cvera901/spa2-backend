@@ -10,6 +10,7 @@ class Cliente extends Model
     use HasFactory;
 
     protected $fillable = [
+        'cedula_ruc',
         'nombres',
         'apellidos',
         'telefono',
