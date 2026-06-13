@@ -1,10 +1,12 @@
-import Empleados from "./empleados/empleados"; 
+//import Empleados from "./empleados/empleados"; 
+import Servicios from "./servicios/servicios";
 
 function App() {
   return (
     <div>
       <h1>SPA Sistema</h1>
-      <Empleados />
+      {"<Empleados />"}
+      <Servicios />
     </div>
   );
 }
